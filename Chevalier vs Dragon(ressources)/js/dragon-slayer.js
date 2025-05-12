@@ -5,27 +5,28 @@
 /*************************************************************************************************/
 var game;
 var level;
-var pointDommage;
+var pointDamage;
 
 /*************************************************************************************************/
 /* *************************************** FONCTIONS JEU *************************************** */
 /*************************************************************************************************/
 
 /********** ALÉATOIRE ********/
-function Aleatoire(dices, sides) {
+function throwDice(dices, sides) {
     let sum = 0;
     for (let i = 0; i < dices; i++) {
-        sum += Math.floor(Math.random() * sides) + 1;
+        sum += Math.floor(Math.random() * sides) + 1; // Génère un nombre aléatoire entre 1 et `sides`
     }
     console.log("La somme finale : " + sum);
     return sum;
 }
 
 /******* POINT DE VIE *****************/
-function PV() {
+function GetPV() {
     game = {};
     game.round = 1;
 
+    // Demander le niveau (remplacez par une méthode d'entrée utilisateur si nécessaire)
     game.level = parseInt(prompt('Donnez le niveau : 1. Facile 2. Moyenne 3. Difficile', '1'), 10);
 
     if (game.level === 1) {
@@ -46,7 +47,7 @@ function PV() {
 }
 
 /******** AFFICHAGE ***********/
-function Debut() {
+function ShowStart() {
     document.write('<div class="game-state">');
     document.write('<figure class="game-state_player"><img src="images/knight.png" alt="Chevalier">');
     if (game.PvPlayer > 0) {
@@ -65,7 +66,7 @@ function Debut() {
     document.write('</div>');
 }
 
-function Tour(attack) {
+function showTour(attack) {
     document.write('<h3>Tour n°' + game.round + '</h3>');
     document.write('<figure class="game-round">');
 
@@ -80,7 +81,7 @@ function Tour(attack) {
     ShowStart();
 }
 
-function Boucle() {
+function gameLoop() {
     while (game.PvPlayer > 0 && game.PvDragon > 0) {
         let attack = GetAttacker();
         pointDamage = calculateDamage(attack);
@@ -90,7 +91,7 @@ function Boucle() {
 }
 
 /*********** QUI ATTAQUE LE PREMIER **************/
-function Dommage() {
+function GetAttacker() {
     let dragonRoll = throwDice(10, 6);
     let playerRoll = throwDice(10, 6);
     console.log("Dragon : " + dragonRoll + ", Player : " + playerRoll);
@@ -98,7 +99,7 @@ function Dommage() {
 }
 
 /******** CALCUL POINT DE DAMAGE DE PLAYER ET DRAGON ********************/
-function calculateurDommage(attack) {
+function calculateDamage(attack) {
     if (!attack) {
         pointDamage = damageDragon();
         game.PvPlayer -= pointDamage;
@@ -111,31 +112,31 @@ function calculateurDommage(attack) {
 }
 
 /********** CALCUL POINT DE DOMMAGE PLAYER **********************************/
-function dommagePlayer() {
+function damagePlayer() {
     let damage = throwDice(3, 6);
     if (game.level === 1) {
         damage = Math.round(damage + (damage * throwDice(2, 6) / 100));
     } else if (game.level === 3) {
         damage = Math.round(damage - (damage * throwDice(1, 6) / 100));
     }
-    console.log("Dommage inflige par le joueur : " + damage);
+    console.log("Dommage infligé par le joueur : " + damage);
     return damage;
 }
 
 /************** CALCUL POINT DE DOMMAGE DRAGON *********************/
-function dommageDragon() {
+function damageDragon() {
     let damage = throwDice(3, 6);
     if (game.level === 1) {
         damage = Math.round(damage - (damage * throwDice(2, 6) / 100));
     } else if (game.level === 3) {
         damage = Math.round(damage + (damage * throwDice(1, 6) / 100));
     }
-    console.log("Dommage inflige par le dragon : " + damage);
+    console.log("Dommage infligé par le dragon : " + damage);
     return damage;
 }
 
 /***************************** GAGNANT *****************/
-function GAGNANT() {
+function winner() {
     if (game.PvDragon > 0) {
         document.write('<footer><h3>Fin de la partie</h3><figure class="game-end"><figcaption>Vous avez perdu le combat, le dragon vous a carbonisé !</figcaption><img src="images/dragon-winner.png" alt="Dragon vainqueur"></figure></footer>');
     } else {
@@ -147,7 +148,7 @@ function GAGNANT() {
 /* ************************************** CODE PRINCIPAL *************************************** */
 /*************************************************************************************************/
 console.clear();
-PV();
-Debut();
-Aleatoire();
-GAGNANT();
+GetPV();
+ShowStart();
+gameLoop();
+winner();
