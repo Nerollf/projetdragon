@@ -1,4 +1,4 @@
-'use strict'; // Mode strict du JavaScript
+'use strict';
 
 /*************************************************************************************************/
 /* **************************************** DONNEES JEU **************************************** */
@@ -15,7 +15,7 @@ var pointDamage;
 function throwDice(dices, sides) {
     let sum = 0;
     for (let i = 0; i < dices; i++) {
-        sum += Math.floor(Math.random() * sides) + 1; // Génère un nombre aléatoire entre 1 et `sides`
+        sum += Math.floor(Math.random() * sides) + 1;
     }
     console.log("La somme finale : " + sum);
     return sum;
@@ -26,7 +26,6 @@ function GetPV() {
     game = {};
     game.round = 1;
 
-    // Demander le niveau (remplacez par une méthode d'entrée utilisateur si nécessaire)
     game.level = parseInt(prompt('Donnez le niveau : 1. Facile 2. Moyenne 3. Difficile', '1'), 10);
 
     if (game.level === 1) {
