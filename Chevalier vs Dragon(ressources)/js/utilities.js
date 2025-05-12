@@ -10,7 +10,7 @@ function GetLavel(message,min,max)
 	{
 		choix = parseInt(window.prompt(message));
 	}
-	while (((choix < min) || (choix > max) || (isNaN(choix)) ))
+	while (((choix < min)|| (choix > max) || (isNaN(choix)) ))
 	return parseInt(choix);
 }
 
